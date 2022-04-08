@@ -1,0 +1,6 @@
+#nhan_smartcontract_nft
+node_modules/
+config/
+artifacts/
+cache/
+.env
