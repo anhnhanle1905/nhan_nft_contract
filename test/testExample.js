@@ -1,16 +1,21 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("TestNFT", function () {
+describe("Hello World", function () {
   const message = "Hello world !!!!";
   const messageSecond = "Bye world !!!!";
+  let [accountA, accountB, accountC] = [];
+  let helloWorld;
+  let address0 = "0x0000000000000000000000000000000000000000";
+  let uri = "sampleuri.com/";
+  beforeEach(async () => {
+    [accountA, accountB, accountC] = await ethers.getSigners();
+    const HelloWorld = await ethers.getContractFactory("HelloWorld");
+    helloWorld = await HelloWorld.deploy(message);
+    await helloWorld.deployed();
+  });
 
   it("Should return message correctly", async function () {
-    const HelloWorld = await ethers.getContractFactory("TestNFT");
-    const helloWorld = await HelloWorld.deploy(message);
-    await helloWorld.deployed();
     expect(await helloWorld.printHelloWorld()).to.be.equal(message);
-    await helloWorld.updateMessage(messageSecond);
-    expect(await helloWorld.printHelloWorld()).to.be.equal(messageSecond);
   });
 });
