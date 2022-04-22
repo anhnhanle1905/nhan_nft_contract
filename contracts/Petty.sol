@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract Petty is ERC721, Ownable {
     using Counters for Counters.Counter;
@@ -13,10 +12,10 @@ contract Petty is ERC721, Ownable {
 
     constructor() ERC721("Petty", "PET") {}
 
-    function mint(address _to) public onlyOwner returns (uint256) {
+    function mint(address to_) public onlyOwner returns (uint256) {
         _tokenIdCount.increment();
         uint256 _tokenId = _tokenIdCount.current();
-        _mint(_to, _tokenId);
+        _mint(to_, _tokenId);
         return _tokenId;
     }
 
@@ -24,7 +23,7 @@ contract Petty is ERC721, Ownable {
         return _baseTokenURI;
     }
 
-    function updateBaseTokenURI(string memory baseTokenURI) public onlyOwner {
-        _baseTokenURI = baseTokenURI;
+    function updateBaseTokenURI(string memory baseTokenURI_) public onlyOwner {
+        _baseTokenURI = baseTokenURI_;
     }
 }
