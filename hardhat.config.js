@@ -3,10 +3,11 @@
  */
 require("dotenv").config();
 require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-waffle");
 const { API_URL_MUMBAI, PRIVATE_KEY } = process.env;
 module.exports = {
   solidity: "0.8.0",
-  defaultNetwork: "mumbai",
+  defaultNetwork: "testnet",
   networks: {
     hardhat: {},
     // testnet: {
