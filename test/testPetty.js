@@ -19,11 +19,15 @@ describe("Petty NFT test", function () {
       );
     });
     it("should mint token correctly", async function () {
+      //tạo biến mintTx để lưu tx mint
       const mintTx = await petty.mint(accountA.address);
+      // mintTx emit ra 1 event "Transfer" tương ứng với address0, accountA, tokenId 1
       await expect(mintTx)
         .to.be.emit(petty, "Transfer")
         .withArgs(address0, accountA.address, 1);
+      // balance của accountA bằng 1
       expect(await petty.balanceOf(accountA.address)).to.be.equal(1);
+      // owner tokenId 1 bằng account A
       expect(await petty.ownerOf(1)).to.be.equal(accountA.address);
 
       const mintTx2 = await petty.mint(accountA.address);
@@ -34,11 +38,12 @@ describe("Petty NFT test", function () {
       expect(await petty.ownerOf(2)).to.be.equal(accountA.address);
     });
   });
+
   // describe("updateBaseTokenURI", function () {
   //   it("should update Base Token URI correctly", async function () {
   //     await petty.mint(accountA.address);
   //     await petty.updateBaseTokenURI(uri);
-  //     expect(await petty.tokenURI(1)).to.be.equal(uri + "1");
+  //     expect(await petty.tokenURI(1)).to.be.equal(`${uri}1`);
   //   });
   // });
 });
