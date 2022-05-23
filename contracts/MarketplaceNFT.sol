@@ -89,4 +89,20 @@ contract Marketplace is Ownable {
     {
         _updateFeeRate(feeDecimal_, feeRate_);
     }
+
+    function _calculateFee(uint256 orderId_) private view returns (uint256) {
+        Order storage _order = orders[orderId_];
+        if (feeRate == 0) {
+            return 0;
+        }
+        return (feeRate * _order.price) / 10**(feeDecimal + 2);
+    }
+
+    function isSeller(uint256 orderId_, address seller_)
+        public
+        view
+        returns (bool)
+    {
+        return orders[orderId_].seller == seller_;
+    }
 }
