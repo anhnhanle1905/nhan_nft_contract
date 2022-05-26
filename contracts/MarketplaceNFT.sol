@@ -24,8 +24,8 @@ contract Marketplace is Ownable {
     mapping(uint256 => Order) orders;
     uint256 public feeDecimal;
     uint256 public feeRate;
-    address public feeRecipient;
-    EnumerableSet.AddressSet private _supportedPaymentTokens;
+    address public feeRecipient; //fee để trả cho ng mua
+    EnumerableSet.AddressSet private _supportedPaymentTokens; // giúp marketplace có thể chấp nhận thanh toán bằng nhiều loại erc20 khác nhau
     event OrderAdded(
         uint256 indexed orderId,
         address indexed seller,
@@ -104,5 +104,32 @@ contract Marketplace is Ownable {
         returns (bool)
     {
         return orders[orderId_].seller == seller_;
+    }
+
+    function addPaymentToken(address paymentToken_) external onlyOwner {
+        require(
+            paymentToken_ != address(0),
+            "NFTMarketplace: feeRecipient_ is zero address"
+        );
+        require(
+            _supportedPaymentTokens.add(paymentToken_),
+            "NFTMarketplace: already supported"
+        );
+    }
+
+    function isPaymentTokenSupported(address paymentToken_)
+        public
+        view
+        returns (bool)
+    {
+        return _supportedPaymentTokens.contains(paymentToken_);
+    }
+
+    modifier onlySupportedPaymentToken(address paymentToken_) {
+        require(
+            isPaymentTokenSupported(paymentToken_),
+            "NFTMarketplace: unsupport payment token"
+        );
+        _;
     }
 }
